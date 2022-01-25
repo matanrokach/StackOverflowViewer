@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Platform, UIManager, LayoutAnimation} from 'react-native';
+import {StyleSheet, Platform, UIManager, LayoutAnimation} from 'react-native';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Button, Text, TextInput} from '../../elements';
 import {useDispatch, useSelector} from 'react-redux';
@@ -43,9 +43,9 @@ const HomeScreen: React.FC = ({}) => {
     dispatch(getUserWithQuestions(parseInt(userId)));
   };
 
-	useEffect(() => {
-		LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-	}, [details])
+  useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }, [details]);
 
   return (
     <ScrollView
@@ -65,43 +65,43 @@ const HomeScreen: React.FC = ({}) => {
         <Text>{'SEARCH'}</Text>
       </Button>
 
-      {(error && (
-        <ErrorText {...{error}} />
-      )) ||
-        null}
+      <ErrorText {...{error}} />
 
-      {!error && <Loader {...{isLoading}}>
-        <>
-          {(details && (
-            <UserDetails
-              {...{
-                displayName: details.display_name,
-                profileImage: details.profile_image,
-                acceptRate: details.accept_rate,
-                reputation: details.reputation,
-              }}
-            />
-          )) ||
-            null}
-
-          {questions.map((question: IUserQuestion, index: number) => {
-            return (
-              <QuestionCard
+      {(!error && (
+        <Loader {...{isLoading}}>
+          <>
+            {(details && (
+              <UserDetails
                 {...{
-                  key: index.toString(),
-                  onPress: () => {
-                    navigation.navigate(Routes.Question, {
-                      uri: question.link,
-                    });
-                  },
-                  title: `Title: ${question.title}`,
-                  description: `Is answered: ${question.is_answered}`,
+                  displayName: details.display_name,
+                  profileImage: details.profile_image,
+                  acceptRate: details.accept_rate,
+                  reputation: details.reputation,
                 }}
               />
-            );
-          })}
-        </>
-      </Loader> || null}
+            )) ||
+              null}
+
+            {questions.map((question: IUserQuestion, index: number) => {
+              return (
+                <QuestionCard
+                  {...{
+                    key: index.toString(),
+                    onPress: () => {
+                      navigation.navigate(Routes.Question, {
+                        uri: question.link,
+                      });
+                    },
+                    title: `Title: ${question.title}`,
+                    description: `Is answered: ${question.is_answered}`,
+                  }}
+                />
+              );
+            })}
+          </>
+        </Loader>
+      )) ||
+        null}
     </ScrollView>
   );
 };
