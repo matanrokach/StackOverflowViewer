@@ -1,11 +1,11 @@
-import {createSlice, Dispatch, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, Dispatch} from '@reduxjs/toolkit';
 import {SOAPI} from '../../services';
 import {mockResponse} from './mockResponse';
 
 const mockData = mockResponse;
 
 export interface IUserState {
-  userDetails: Partial<IQuestionOwner>;
+  userDetails: Partial<IQuestionOwner> | Partial<IUser>;
   questions: IUserQuestion[];
   isLoading: boolean;
   error: string;
@@ -75,9 +75,8 @@ export const selectQuestions = (state: {user: IUserState}) =>
 
 export default userSlice.reducer;
 
-export const getUser = (userId: number) => async (dispatch: Dispatch) => {
+const getUser = async (userId: number) => {
   try {
-    dispatch(getUserDetails());
     const response = await SOAPI.fetchUserById(userId);
 
     const user = response.data.items.find(
@@ -85,12 +84,12 @@ export const getUser = (userId: number) => async (dispatch: Dispatch) => {
     );
 
     if (!user) {
-      return dispatch(getUserDetailsFailure({error: 'User not found'}));
+      return {error: 'User not found'};
+    } else {
+      return {user};
     }
-console.log(">>> user", JSON.stringify(user, null, 2))
-    dispatch(getUserDetailsSuccess({user}));
   } catch (error) {
-    dispatch(getUserDetailsFailure({error}));
+    return {error};
   }
 };
 
@@ -108,11 +107,19 @@ export const getUserWithQuestions =
         return dispatch(getQuestionsFailure({error: 'User not found'}));
       }
 
-			if (!questions.length) {
-				return dispatch(getUser(userId));
-			}
-			
-      dispatch(getQuestionsSuccess({user: questions[0].owner, questions}));
+      if (questions.length) {
+        return dispatch(
+          getQuestionsSuccess({user: questions[0].owner, questions}),
+        );
+      }
+
+      const user = await getUser(userId);
+
+      if (user) {
+        return dispatch(getUserDetailsSuccess({user}));
+      }
+
+      dispatch(getUserDetailsFailure({error: 'User not found'}));
     } catch (error) {
       dispatch(getQuestionsFailure({error}));
     }

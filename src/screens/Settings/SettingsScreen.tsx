@@ -6,7 +6,7 @@ import {
   selectIsDarkMode,
   setDarkMode,
 } from '../../features/settings/settingsSlice';
-import { Text } from '../../elements';
+import {Text} from '../../elements';
 
 export const SettingsScreen = ({}) => {
   const {colors} = useTheme();
@@ -27,7 +27,7 @@ export const SettingsScreen = ({}) => {
     <View style={[styles.container, backgroundStyle]}>
       <View style={styles.row}>
         <Text>{'Dark Mode'}</Text>
-        <Switch {...{value: isDarkMode, onChange: onChangeDarkMode}} />
+        <Switch {...{value: !!isDarkMode, onChange: onChangeDarkMode}} />
       </View>
     </View>
   );

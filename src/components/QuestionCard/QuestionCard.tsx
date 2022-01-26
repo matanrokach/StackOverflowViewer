@@ -1,22 +1,25 @@
 import React from "react";
+import { QuestionTitle } from "..";
 import { Card, Text } from "../../elements";
 
 interface Props {
-	title: string;
-	description: string;
-	onPress(): void;
+	question: IUserQuestion;
+	onPressQuestion(questionUri: string): void;
 }
 
-export const QuestionCard = ({ title, description, onPress }: Props) => {
+export const QuestionCard = ({ question, onPressQuestion }: Props) => {
+
+	const onPress = () => {
+		onPressQuestion(question.link);
+	}
+
+	const title = `Title: ${question.title}`;
+	const description = `Is answered: ${question.is_answered}`;
 
 	return (
 		<Card {...{ onPress }}>
 			<>
-				<Text
-					style={{
-						fontSize: 18,
-						paddingBottom: 10,
-					}}>{title}</Text>
+				<QuestionTitle>{title}</QuestionTitle>
 				<Text>{description}</Text>
 			</>
 		</Card>

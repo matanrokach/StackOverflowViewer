@@ -29,17 +29,12 @@ export const TextInput = (props: TextInputProps) => {
 
 const styles = StyleSheet.create({
 	container: {
-		// borderColor: 'green',
-		// backgroundColor: 'red',
 		borderWidth: 1,
 		alignSelf: 'stretch',
 		marginHorizontal: 20,
 		paddingHorizontal: 10,
-		// paddingVertical: 10,
+		marginVertical: 10,
 		borderRadius: 6,
-
-		// flexDirection: 'row',
-		// flex: 1,
 	},
 	textInput: {
 		borderColor: 'red',
