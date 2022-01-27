@@ -1,8 +1,6 @@
 import {createSlice, Dispatch} from '@reduxjs/toolkit';
 import {SOAPI} from '../../services';
-import {mockResponse} from './mockResponse';
 
-const mockData = mockResponse;
 
 export interface IUserState {
   userDetails: Partial<IQuestionOwner> | Partial<IUser>;
