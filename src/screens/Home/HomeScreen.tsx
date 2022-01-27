@@ -42,12 +42,13 @@ const HomeScreen: React.FC = ({}) => {
   const error = useSelector(selectDetailsError);
 
   const onPressSearch = () => {
+		LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     dispatch(getUserWithQuestions(parseInt(userId)));
   };
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }, [details]);
+  }, [details, questions, error]);
 
   const onPressQuestion = (question: IUserQuestion) => {
     navigation.navigate(Routes.Question, {
@@ -93,7 +94,7 @@ const HomeScreen: React.FC = ({}) => {
         }}
       />
 
-      <Loader {...{isLoading}}>
+      {!error && <Loader {...{isLoading}}>
         <>
           <Details
             {...{
@@ -109,7 +110,7 @@ const HomeScreen: React.FC = ({}) => {
             }}
           />
         </>
-      </Loader>
+      </Loader> || null}
     </ScrollView>
   );
 };
