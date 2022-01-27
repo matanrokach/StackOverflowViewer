@@ -1,4 +1,5 @@
 import React from "react";
+import { TextInputProps } from "react-native";
 import { ErrorText, Title } from "../../../../components";
 import { Button, Text, TextInput } from "../../../../elements";
 
@@ -7,9 +8,11 @@ interface Props {
 	onSearchTermChange(searchTerm: string): void;
 	onSubmit(): void;
 	error: string;
+	keyboardType: TextInputProps["keyboardType"];
+	isSubmitDisabled: boolean;
 }
 
-export const Search = ({ searchTerm, onSearchTermChange, onSubmit, error }: Props) => {
+export const Search = ({ searchTerm, onSearchTermChange, onSubmit, error, keyboardType, isSubmitDisabled }: Props) => {
 
 	return (
 		<>
@@ -19,9 +22,10 @@ export const Search = ({ searchTerm, onSearchTermChange, onSubmit, error }: Prop
 						value: searchTerm,
 						onChangeText: onSearchTermChange,
 						placeholder: 'e.g: 123456',
+						keyboardType,
 					}}
 				/>
-				<Button onPress={onSubmit}>
+				<Button onPress={onSubmit} disabled={isSubmitDisabled}>
 					<Text>{'SEARCH'}</Text>
 				</Button>
 

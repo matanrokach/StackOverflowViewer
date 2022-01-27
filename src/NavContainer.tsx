@@ -1,9 +1,8 @@
-import { DarkTheme, DefaultTheme, NavigationContainer, Theme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import React from "react";
-import { SafeAreaView, StatusBar, useColorScheme } from "react-native";
+import { SafeAreaView, StatusBar } from "react-native";
 import { Themes } from "./config";
 import { Colors } from "./constants";
-// import { Colors } from "react-native/Libraries/NewAppScreen";
 import { useIsDarkMode } from "./hooks/useIsDarkMode";
 import MainStackNav from "./MainStackNav";
 

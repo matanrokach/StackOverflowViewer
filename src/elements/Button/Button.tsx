@@ -1,9 +1,9 @@
 import React from 'react';
-import { useTheme } from '@react-navigation/native';
-import { StyleSheet, TouchableOpacity as RNTouchableOpacity, TextInputProps, TouchableOpacityProps, View } from 'react-native';
+import { StyleSheet, TouchableOpacity as RNTouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { useAppTheme } from '../../hooks/useAppTheme';
 
 export const Button = (props: TouchableOpacityProps) => {
-	const { colors } = useTheme();
+	const { colors } = useAppTheme();
 
 	return (
 		<RNTouchableOpacity
@@ -14,6 +14,7 @@ export const Button = (props: TouchableOpacityProps) => {
 					...props.style as object,
 					borderColor: colors.border,
 					backgroundColor: colors.background,
+					...props.disabled && { borderColor: colors.disabled },
 				}
 			}}
 		/>

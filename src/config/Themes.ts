@@ -1,7 +1,24 @@
 import { DefaultTheme, Theme } from "@react-navigation/native";
 import { Colors } from "../constants";
 
-const darkTheme: Theme = {
+
+interface ITheme extends Theme {
+	dark: boolean;
+	colors: {
+		background: string;
+		text: string;
+		border: string;
+		primary: string;
+		card: string;
+		notification: string;
+		error: string;
+		disabled: string;
+		disabledText: string;
+		[key: string]: string;
+	}
+}
+
+const darkTheme: ITheme = {
 	...DefaultTheme,
 	dark: true,
 	colors: {
@@ -10,10 +27,13 @@ const darkTheme: Theme = {
 		text: Colors.White,
 		border: Colors.White,
 		primary: Colors.White,
+		error: Colors.Red,
+		disabled: Colors.Gray3,
+		disabledText: Colors.Gray3,
 	}
 };
 
-const lightTheme: Theme = {
+const lightTheme: ITheme = {
 	...DefaultTheme,
 	dark: true,
 	colors: {
@@ -22,6 +42,9 @@ const lightTheme: Theme = {
 		text: Colors.Black,
 		border: Colors.Black,
 		primary: Colors.Black,
+		error: Colors.Red2,
+		disabled: Colors.Gray2,
+		disabledText: Colors.Gray2,
 	}
 };
 

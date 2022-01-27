@@ -82,12 +82,13 @@ const getUser = async (userId: number) => {
     );
 
     if (!user) {
-      return {error: 'User not found'};
-    } else {
-      return {user};
+      throw new Error ('User not found');
     }
+		
+		return {user};
+
   } catch (error) {
-    return {error};
+    throw error;
   }
 };
 
@@ -119,6 +120,6 @@ export const getUserWithQuestions =
 
       dispatch(getUserDetailsFailure({error: 'User not found'}));
     } catch (error) {
-      dispatch(getQuestionsFailure({error}));
+      dispatch(getQuestionsFailure({error: error instanceof Error && error.message}));
     }
   };

@@ -1,14 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Platform,
-  UIManager,
-  LayoutAnimation,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, Platform, UIManager, LayoutAnimation} from 'react-native';
 import {useNavigation, useTheme} from '@react-navigation/native';
-import {Button, Text, TextInput} from '../../elements';
 import {useDispatch, useSelector} from 'react-redux';
+import {number} from 'yup';
 import {
   getUserWithQuestions,
   selectIsLoadingDetails,
@@ -18,7 +12,7 @@ import {
 } from '../../features/user/userSlice';
 import {Routes} from '../../constants';
 import {Loader} from '../../elements/Loader/Loader';
-import {ErrorText, QuestionCard, Title, UserDetails} from '../../components';
+import {QuestionCard} from '../../components';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Details, Results, Search} from './Sections';
@@ -41,6 +35,7 @@ const HomeScreen: React.FC = ({}) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [userId, setUserId] = useState('');
+  const [typingError, setTypingError] = useState('');
   const isLoading = useSelector(selectIsLoadingDetails);
   const details = useSelector(selectUserDetails);
   const questions = useSelector(selectQuestions);
@@ -60,7 +55,16 @@ const HomeScreen: React.FC = ({}) => {
     });
   };
 
-  const renderItem = ({item, index}: {item: IUserQuestion, index: number}) => (
+  const onSearchTermChange = (value: string) => {
+    setUserId(value);
+    if (value !== '') {
+      setTypingError(number().isValidSync(value) ? '' : 'Use numbers only');
+    } else {
+      setTypingError('');
+    }
+  };
+
+  const renderItem = ({item, index}: {item: IUserQuestion; index: number}) => (
     <QuestionCard
       {...{
         key: index.toString(),
@@ -69,6 +73,8 @@ const HomeScreen: React.FC = ({}) => {
       }}
     />
   );
+
+  const isSubmitDisabled = userId === '' || !!typingError;
 
   return (
     <ScrollView
@@ -79,32 +85,31 @@ const HomeScreen: React.FC = ({}) => {
       <Search
         {...{
           searchTerm: userId,
-          onSearchTermChange: setUserId,
+          onSearchTermChange,
           onSubmit: onPressSearch,
-          error,
+          error: typingError || error,
+          keyboardType: 'number-pad',
+          isSubmitDisabled,
         }}
       />
 
-      {(!error && (
-        <Loader {...{isLoading}}>
-          <>
-            <Details
-              {...{
-                details,
-              }}
-            />
+      <Loader {...{isLoading}}>
+        <>
+          <Details
+            {...{
+              details,
+            }}
+          />
 
-            <Results<IUserQuestion>
-              {...{
-                data: questions,
-                renderItem,
-                keyExtractor: item => item.question_id.toString(),
-              }}
-            />
-          </>
-        </Loader>
-      )) ||
-        null}
+          <Results<IUserQuestion>
+            {...{
+              data: questions,
+              renderItem,
+              keyExtractor: item => item.question_id.toString(),
+            }}
+          />
+        </>
+      </Loader>
     </ScrollView>
   );
 };
