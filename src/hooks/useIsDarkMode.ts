@@ -2,6 +2,10 @@ import { useColorScheme } from "react-native";
 import { useSelector } from "react-redux";
 import { selectIsDarkMode } from "../features/settings/settingsSlice";
 
+jest.mock('react-redux', () => ({
+	useSelector: () => true,
+}))
+
 export const useIsDarkMode = () => {
 	const isDarkMode = useColorScheme() === 'dark';
 

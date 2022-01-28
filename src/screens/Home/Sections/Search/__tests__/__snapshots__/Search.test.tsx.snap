@@ -57,8 +57,8 @@ Array [
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "backgroundColor": "rgb(242, 242, 242)",
-        "borderColor": "rgb(216, 216, 216)",
+        "backgroundColor": "#292828",
+        "borderColor": "#efefef",
         "borderRadius": 6,
         "borderWidth": 1,
         "opacity": 1,
@@ -78,12 +78,17 @@ Array [
     </Text>
   </View>,
   <View
-    style={Object {}}
+    style={
+      Object {
+        "height": 24,
+        "paddingVertical": 5,
+      }
+    }
   >
     <Text
       style={
         Object {
-          "color": "red",
+          "color": "#cc0000",
         }
       }
     >
