@@ -57,8 +57,8 @@ Array [
     onStartShouldSetResponder={[Function]}
     style={
       Object {
-        "backgroundColor": "#292828",
-        "borderColor": "#efefef",
+        "backgroundColor": "#efefef",
+        "borderColor": "#292828",
         "borderRadius": 6,
         "borderWidth": 1,
         "opacity": 1,
@@ -88,7 +88,7 @@ Array [
     <Text
       style={
         Object {
-          "color": "#cc0000",
+          "color": "#ee0000",
         }
       }
     >
